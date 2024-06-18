@@ -1,5 +1,5 @@
 import express from "express";
-import { addSkater, adminPage, dataPage, deleteSkater, home, login, loginForm, registerForm, updateSkater } from "../controllers/controller.js";
+import { addSkater, adminPage, dataPage, deleteSkater, home, login, loginForm, registerForm, stateCheck, updateSkater } from "../controllers/controller.js";
 
 const router = express.Router();
 
@@ -15,6 +15,8 @@ router.post("/login", login);
 router.put("/data", updateSkater);
 
 router.delete("/data", deleteSkater);
+
+router.post('/admin', stateCheck);
 
 
 router.get('*', (req, res) => {

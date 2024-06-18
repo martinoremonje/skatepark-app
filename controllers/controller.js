@@ -1,4 +1,4 @@
-import { addSkaterQuery, deleteSkaterQuery, getSkatersQuery, updateSkaterQuery, verifyUserQuery } from "../models/queries.js";
+import { addSkaterQuery, deleteSkaterQuery, getSkatersQuery, stateQuery, updateSkaterQuery, verifyUserQuery } from "../models/queries.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
@@ -101,7 +101,7 @@ export const home = async(req, res) => {
  export const updateSkater = async (req, res) => {
   const { email, nombre, anos_experiencia, especialidad } = req.body;
 
-  // Validación básica de campos
+  
   if (!email || !nombre || !anos_experiencia || !especialidad) {
     return res.status(400).send("Faltan datos");
   }
@@ -124,8 +124,6 @@ export const home = async(req, res) => {
 export const deleteSkater = async (req, res) => {
   try {
     const { id } = req.body;
-    
-    // Validación básica del id
     if (!id) {
       return res.status(400).send("Falta el ID");
     }
@@ -141,3 +139,21 @@ export const deleteSkater = async (req, res) => {
     return res.status(500).send("Error interno del servidor");
   }
 };
+
+export const stateCheck = async (req, res) => {
+  const { id, estado } = req.body;
+
+  try {
+    const result = await stateQuery(id, estado);
+    if (result) {
+      console.log(`Estado de ${id} actualizado`);
+      return res.status(200).json({ success: true, message: `Estado de ${id} actualizado` });
+    } else {
+      return res.status(400).json({ success: false, message: 'No rows updated' });
+    }
+  } catch (error) {
+    console.error('Error updating status:', error);
+    return res.status(500).json({ success: false, message: 'Database error' });
+  }
+};
+

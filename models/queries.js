@@ -23,7 +23,7 @@ export const getSkatersQuery = async () => {
 export const addSkaterQuery = async (email, nombre,password, anos_experiencia, especialidad, foto) =>{
     try {
         const sql = {
-            text: "INSERT INTO skaters (email, nombre, password, anos_experiencia, especialidad, foto, estado) VALUES ($1, $2, $3, $4, $5, $6, true) RETURNING *",
+            text: "INSERT INTO skaters (email, nombre, password, anos_experiencia, especialidad, foto, estado) VALUES ($1, $2, $3, $4, $5, $6, false) RETURNING *",
             values: [email, nombre, password, anos_experiencia, especialidad, foto]
         };
 
@@ -88,6 +88,22 @@ export const deleteSkaterQuery = async (id) => {
   } catch (error) {
     console.error(error);
     throw error; 
+  }
+};
+
+
+export const stateQuery = async (id, estado) => {
+  const sql = {
+    text: 'UPDATE skaters SET estado = $1 WHERE id = $2',
+    values: [estado, id]
+  };
+
+  try {
+    const result = await pool.query(sql);
+    return result.rowCount > 0;
+  } catch (error) {
+    console.error('Error updating status:', error);
+    return false;
   }
 };
 

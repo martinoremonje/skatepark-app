@@ -24,7 +24,10 @@
             <td>{{this.nombre}}</td>
             <td>{{this.anos_experiencia}}</td>
             <td>{{this.especialidad}}</td>
-            <td class="text-success font-weight-bold">{{this.estado}}</td>
+            <td class="{{#if this.estado}}text-success font-weight-bold{{else}}text-danger font-weight-bold{{/if}}">
+              {{this.estado}}
+            </td>
+
           </tr>
          
         </tbody>

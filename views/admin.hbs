@@ -1,38 +1,82 @@
 <div class="py-4">
-      <h2>Administración</h2>
-      <hr class="w-50" />
+  <h2>Administración</h2>
+  <hr class="w-50" />
 
-      <table class="table w-50 m-auto">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Foto</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Años de experiencia</th>
-            <th scope="col">Especialidad</th>
-            <th scope="col">Estado</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#if skaters}}
-           {{#each skaters}}
-        <tbody>
-          
+  <div id="message" style="display: none; margin-bottom: 20px;"></div>
+
+  <table class="table w-50 m-auto">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Foto</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Años de experiencia</th>
+        <th scope="col">Especialidad</th>
+        <th scope="col">Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#if skaters}}
+        {{#each skaters}}
           <tr>
             <th scope="row">{{this.id}}</th>
-            <td><img src="{{this.foto}}"></td>
+            <td><img src="{{this.foto}}" alt="Foto"></td>
             <td>{{this.nombre}}</td>
             <td>{{this.anos_experiencia}}</td>
             <td>{{this.especialidad}}</td>
-            <td><input type="checkbox" {{#if this.estado}} checked{{/if}}/></td>
+            <td>
+              <input type="checkbox" {{#if this.estado}} checked{{/if}} onchange="updateStatus(this, {{this.id}}, this.checked)" />
+            </td>
           </tr>
-         
-        </tbody>
-          {{/each}}
-        {{else}}
-          <p>No Skaters found.</p>
-        {{/if}}
-         
-        </tbody>
-      </table>
-    </div>
+        {{/each}}
+      {{else}}
+        <tr>
+          <td colspan="6">No Skaters found.</td>
+        </tr>
+      {{/if}}
+    </tbody>
+  </table>
+</div>
+
+{{!-- SE AGREGA FUNCION UPDATESTATUS Y UN MENSAJE DE EXITO O ERROR --}}
+
+<script>
+  function updateStatus(checkbox, id, status) {
+    checkbox.disabled = true;
+    fetch('/admin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id: id, estado: status }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showMessage('Status updated successfully', 'success');
+      } else {
+        checkbox.checked = !status; 
+        showMessage('Failed to update status', 'error');
+      }
+      checkbox.disabled = false;
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      checkbox.checked = !status;
+      showMessage('Error updating status', 'error');
+      checkbox.disabled = false;
+    });
+  }
+
+  function showMessage(message, type) {
+    const messageDiv = document.getElementById('message');
+    messageDiv.style.display = 'block';
+    messageDiv.innerText = message;
+    messageDiv.className = type === 'success' ? 'alert alert-success' : 'alert alert-danger';
+    setTimeout(() => {
+      messageDiv.style.display = 'none';
+    }, 2000);
+  }
+</script>
+
+   
