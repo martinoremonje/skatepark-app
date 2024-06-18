@@ -23,7 +23,7 @@ export const getSkatersQuery = async () => {
 export const addSkaterQuery = async (email, nombre,password, anos_experiencia, especialidad, foto) =>{
     try {
         const sql = {
-            text: "INSERT INTO skaters (email, nombre, password, anos_experiencia, especialidad, foto, estado) VALUES ($1, $2, $3, $4, $5, $6, false) RETURNING *",
+            text: "INSERT INTO skaters (email, nombre, password, anos_experiencia, especialidad, foto, estado) VALUES ($1, $2, $3, $4, $5, $6, true) RETURNING *",
             values: [email, nombre, password, anos_experiencia, especialidad, foto]
         };
 

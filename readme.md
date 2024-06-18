@@ -2,16 +2,8 @@
 
 ## Descripción del proyecto
 
-¿Estás comenzando un proyecto pequeño, un desafío de programación o un tutorial, y necesitas una forma rápida y sencilla de crear documentación básica? ¡Esta plantilla README minimalista es para ti!
-
 Esta es una aplicación de gestión de usuarios para un skatepark, desarrollada con Express, Express-Handlebars, Express-Uploaded y PostgreSQL. Los usuarios pueden registrarse, iniciar sesión y actualizar o eliminar su información a través de su correo electrónico. La aplicación tiene vistas específicas para el registro, inicio de sesión y edición de usuarios, así como una vista administrativa accesible solo por ruta directa.
 
-## Capturas de Pantalla del Proyecto
-
-Incluir capturas de pantalla o imágenes que muestren el proyecto en funcionamiento.
-
-![Home](imagenes/home.png)
-Vista inicio de la aplicación.
 
 ## Prerrequisitos o Dependencias
 

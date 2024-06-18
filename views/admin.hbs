@@ -14,30 +14,25 @@
           </tr>
         </thead>
         <tbody>
+          {{#if skaters}}
+           {{#each skaters}}
+        <tbody>
+          
           <tr>
-            <th scope="row">1</th>
-            <td><div></div></td>
-            <td>Tony Hawk</td>
-            <td>12</td>
-            <td>Kickflip</td>
-            <td><input type="checkbox" checked /></td>
+            <th scope="row">{{this.id}}</th>
+            <td><img src="{{this.foto}}"></td>
+            <td>{{this.nombre}}</td>
+            <td>{{this.anos_experiencia}}</td>
+            <td>{{this.especialidad}}</td>
+            <td><input type="checkbox" {{#if this.estado}} checked{{/if}}/></td>
           </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td><div></div></td>
-            <td>Evelien Bouilliart</td>
-            <td>10</td>
-            <td>Heelflip</td>
-            <td><input type="checkbox" checked /></td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td><div></div></td>
-            <td>Danny Way</td>
-            <td>8</td>
-            <td>Ollie</td>
-            <td><input type="checkbox" /></td>
-          </tr>
+         
+        </tbody>
+          {{/each}}
+        {{else}}
+          <p>No Skaters found.</p>
+        {{/if}}
+         
         </tbody>
       </table>
     </div>

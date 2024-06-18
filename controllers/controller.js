@@ -25,9 +25,10 @@ export const home = async(req, res) => {
     });
   };
   
-  export const adminPage = (req, res) => {
+  export const adminPage = async(req, res) => {
     res.render("admin", {
       title: "Admin Page",
+      skaters: await getSkatersQuery()
     });
   };
 
@@ -42,8 +43,10 @@ export const home = async(req, res) => {
 
   export const addSkater = async (req, res) => {
     const { email, nombre, password, anos_experiencia, especialidad, repeatpassword} = req.body;
+    const verify = await verifyUserQuery(email);
+    if(!verify){
     const { foto } = req.files;
-  
+    
     const fotoName = uuidv4().slice(0, 8);
     const fotoUrl = `/uploads/${fotoName}.jpg`;
 
@@ -55,6 +58,7 @@ export const home = async(req, res) => {
     if (password !== repeatpassword) {
       return res.send("Las contraseñas deben coincidir");
     }
+  
     try {
       const passwordHash = await bcrypt.hash(password, 10);
   
@@ -67,7 +71,9 @@ export const home = async(req, res) => {
       console.error(error);
       res.status(500).send("Error del servidor");  
     }
-  };
+  }else{
+    res.send("Email ya registrado en la base de datos")
+  }};
 
   export const login = async (req, res) =>{
     const {email, password} = req.body;
@@ -88,7 +94,7 @@ export const home = async(req, res) => {
         id: result.id
       })
     } catch (error) {
-      console.log(error)
+      res.status(400).send("Usuario no encontrado")
     }
  };
 
