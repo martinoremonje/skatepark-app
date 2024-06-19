@@ -72,7 +72,7 @@ export const home = async(req, res) => {
       res.status(500).send("Error del servidor");  
     }
   }else{
-    res.send("Email ya registrado en la base de datos")
+    res.status(400).send("Email ya registrado en la base de datos")
   }};
 
   export const login = async (req, res) =>{
@@ -81,7 +81,7 @@ export const home = async(req, res) => {
       const result = await verifyUserQuery(email);
       const passwordMatch = await bcrypt.compare(password, result.password)
       if(!passwordMatch){
-        return res.status(401).send("Contraseña incorrecta")
+        return res.status(401).send("Datos incorrectos")
       }
       const token = jwt.sign({user: result.nombre, email: result.email}, secretkey, {expiresIn: '10s'});
       res.cookie('token', token);
